@@ -16,8 +16,8 @@
 ## Lancer le serveur Scala
 
 1. Ouvrir un terminal dans le dossier du projet :
-2. Lancer SBT :
-3. Attendre que le serveur démarre. Il écoute sur http://localhost:8080 (noramlement).
+2. Lancer SBT.
+3. Attendre que le serveur démarre Il écoute sur http://localhost:8080 (noramlement).
 
 ## Lancer le client (page HTML)
 
