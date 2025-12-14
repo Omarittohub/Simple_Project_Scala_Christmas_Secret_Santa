@@ -46,6 +46,9 @@ object Main extends ZIOAppDefault {
     },
 
     // creer un nouveau secret et le mettre dans la bdd
+    // prends un JSON avec le contenu du secret
+    // Json: { "content": "mon secret" }
+    // retourne 200 OK si reussi
     Method.POST / "whisper" -> handler { (req: Request) =>
       req.body.asString.flatMap { body =>
         body.fromJson[CreateWhisper] match {
@@ -60,11 +63,17 @@ object Main extends ZIOAppDefault {
     },
 
     // Lire les noms
+    // retourne un JSON avec la liste des noms
+    // Json: [ { "content": "nom1", "timestamp": 1234567890 }, { "content": "nom2", "timestamp": 1234567890 } ]
+    // timestamp est pour tracker quand le nom a ete ajoute
+    // utile pour le front-end pour afficher l'ordre d'ajout
     Method.GET / "whispers" -> handler {
       db.get.map(ws => Response.json(ws.toJson))
     },
 
     // lire un nom par index
+    // retourne 404 si l'index est hors limite
+    // index commence a 0 (changes dynamically en fonction du nombre de noms et change selon les ajouts/suppressions)
     Method.GET / "whisper" / int("index") -> handler { (index: Int, _: Request) =>
       db.get.map { ws =>
         if (index < 0 || index >= ws.size)
@@ -75,6 +84,8 @@ object Main extends ZIOAppDefault {
     },
 
     // changer un nom par index
+    // prends un JSON avec le nouveau contenu du nom
+    // Json: { "content": "nouveau nom" }
     Method.PUT / "whisper" / int("index") -> handler { (index: Int, req: Request) =>
       req.body.asString.flatMap { body =>
         body.fromJson[CreateWhisper] match {

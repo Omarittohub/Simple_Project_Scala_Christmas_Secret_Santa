@@ -16,8 +16,20 @@
 ## Lancer le serveur Scala
 
 1. Ouvrir un terminal dans le dossier du projet
-2. Lancer SBT.
-3. Attendre que le serveur démarre Il écoute sur http://localhost:8080 (noramlement).
+2. Lancer le serveur :
+  - `sbt run`
+3. Attendre que le serveur démarre (par défaut : http://localhost:8080).
+
+## Endpoints (API)
+
+- `GET /ping` → "pong" (test de santé)
+- `GET /random` → retourne un whisper aléatoire
+- `POST /whisper` → ajoute un whisper (JSON : `{ "content": "Prénom" }`)
+- `GET /whispers` → liste des whispers
+- `GET /whisper/{index}` → whisper à un index (404 si hors limites)
+- `PUT /whisper/{index}` → modifie un whisper (JSON : `{ "content": "Nouveau" }`)
+- `DELETE /whisper/{index}` → supprime un whisper
+- `GET /stream` → WebSocket (stream des nouveaux whispers)
 
 ## Lancer le client (page HTML)
 
@@ -27,3 +39,8 @@
    - Entrer un prénom puis cliquer sur "Envoyer" pour l’ajouter au bocal.
    - Utiliser le bouton "Tirer un prénom" pour récupérer un nom au hasard.
    - Utiliser la section "Test CRUD" pour lister, lire, modifier ou supprimer les entrées.
+
+## Tests
+
+- Lancer les tests : `sbt test`
+- Les tests couvrent les codecs JSON et plusieurs routes HTTP en mémoire .
